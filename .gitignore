@@ -24,10 +24,15 @@ src/main/resources/
 # .idea
 .idea
 
+<<<<<<< HEAD
 # metadata
 .metadata
 
 # Mac
+=======
+.metadata
+
+>>>>>>> 0affcc2 (git ignore 추가)
 .DS_Store
 
 # End of https://www.toptal.com/developers/gitignore/api/maven
