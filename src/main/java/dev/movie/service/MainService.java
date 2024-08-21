@@ -1,8 +1,5 @@
 package dev.movie.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dev.movie.model.dto.SelectedSeat;
 import dev.service.cloud.Console;
 
@@ -56,30 +53,23 @@ public class MainService {
 	}
 
 	public SelectedSeat getSeatList(Long movieId) {
-		// showSeats();
-		List<String> seats = new ArrayList<>();
-		seats.add("A| 1 2 X 4 5 6");
-		seats.add("B| 1 2 3 4 5 6");
-		seats.add("C| 1 2 3 X X 6");
-		seats.add("D| 1 2 3 4 5 6");
-		seats.add("E| 1 2 3 4 5 6");
-
+		String seats = SeatService.getAllSeat(movieId);
 		Console.writeln("선택하신 시간의 좌석표입니다 🙋🏻‍♀️");
 
 		while (true) {
 			Console.writeln("====SCREEN====");
-			for (String seat : seats)
-				Console.writeln(seat);
+			Console.writeln(seats);
 
 			Console.writeln();
 			SelectedSeat seatRow = selectRow();
 			Console.writeln();
 			int col = selectCol();
 
-			SelectedSeat movieSeat = SelectedSeat.builder().row(seatRow.getRow()).col(col).price(seatRow.getPrice())
-					.build();
-			return movieSeat;
-			// if ~ 존재할때는 return method 추가
+			SelectedSeat movieSeat = SelectedSeat.builder().movieId(movieId).row(seatRow.getRow()).col(col)
+					.price(seatRow.getPrice()).build();
+			if (SeatService.insertIfEmptySeat(movieId, col, seats))
+				return movieSeat;
+			Console.writeln("이미 예약이 된 좌석입니다.");
 		}
 	}
 
