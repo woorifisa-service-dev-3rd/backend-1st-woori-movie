@@ -1,5 +1,8 @@
 package dev.movie.service;
 
+import java.util.List;
+
+import dev.movie.model.dto.PriceDTO;
 import dev.movie.model.dto.SelectedSeat;
 import dev.service.cloud.Console;
 
@@ -111,5 +114,11 @@ public class MainService {
 			Console.writeln("존재하지 않는 열입니다.");
 			Console.writeln();
 		}
+	}
+	
+	public List<PriceDTO> getPrice() {
+		List<PriceDTO> prices = PriceService.getPrice();
+		Console.writeln(prices.toString());
+		return prices;
 	}
 }
