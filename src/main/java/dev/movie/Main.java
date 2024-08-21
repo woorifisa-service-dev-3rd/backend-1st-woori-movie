@@ -1,16 +1,17 @@
 package dev.movie;
 
-import java.sql.Connection;
-
-import dev.movie.util.DBUtil;
+import dev.movie.controller.MainController;
+import dev.movie.model.dto.SelectedSeat;
+import dev.service.cloud.Console;
 
 public class Main {
 
 	public static void main(String[] args) {
+		Console.writeln("🎬 어서오세요! <우리 극장>입니다! 🎬");
 		
-		Connection conn = DBUtil.getConnection();
-		System.out.println(conn);
-
+		String movieName = MainController.showMovieList();
+		Long movieId = MainController.showTimeList(movieName);
+		SelectedSeat movieSeat = MainController.showSeatList(movieId);
 	}
 
 }
