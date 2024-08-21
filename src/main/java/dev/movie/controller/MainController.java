@@ -1,5 +1,8 @@
 package dev.movie.controller;
 
+import java.util.List;
+
+import dev.movie.model.dto.PriceDTO;
 import dev.movie.model.dto.SelectedSeat;
 import dev.movie.service.MainService;
 import dev.service.cloud.Console;
@@ -20,5 +23,10 @@ public class MainController {
 	public static SelectedSeat showSeatList(Long movieId) {
 		Console.writeln();
 		return mainService.getSeatList(movieId);
+	}
+	
+	public static List<PriceDTO>showPrice() {
+		Console.writeln();
+		return mainService.getPrice(); 
 	}
 }
