@@ -21,4 +21,7 @@ src/main/resources/
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# .idea
+.idea
+
 # End of https://www.toptal.com/developers/gitignore/api/maven
