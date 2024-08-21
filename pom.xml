@@ -34,5 +34,10 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>dev.service.cloud</groupId>
+			<artifactId>dbconfig</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
