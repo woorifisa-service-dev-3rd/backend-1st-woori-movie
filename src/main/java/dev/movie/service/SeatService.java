@@ -32,7 +32,7 @@ public class SeatService {
 		}
 		return sb.toString();
 	}
-
+        
 	public static boolean insertIfEmptySeat(Long movieId, int col, String row) {
 
 		boolean isEmpty = SeatDAO.findSeat(movieId, col, row);
@@ -44,6 +44,5 @@ public class SeatService {
 		} else {
 			return false;
 		}
-
 	}
 }

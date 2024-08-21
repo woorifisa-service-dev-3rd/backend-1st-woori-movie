@@ -12,5 +12,4 @@ public class SeatDTO {
 	private int col;
 	private int movieId;
 	private int rowId;
-	
 }

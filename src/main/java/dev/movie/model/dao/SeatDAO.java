@@ -20,7 +20,7 @@ public class SeatDAO {
 		final String selectQuery = "SELECT * FROM seat WHERE movie_id = ? order by row_id";
 
 		List<SeatDTO> seats = new ArrayList<>();
-
+  
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(selectQuery);) {
 
