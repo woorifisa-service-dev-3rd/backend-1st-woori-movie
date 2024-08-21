@@ -24,4 +24,10 @@ src/main/resources/
 # .idea
 .idea
 
+# metadata
+.metadata
+
+# Mac
+.DS_Store
+
 # End of https://www.toptal.com/developers/gitignore/api/maven
