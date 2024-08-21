@@ -1,12 +1,10 @@
 package dev.movie.model.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,17 +16,15 @@ public class SeatDAO {
 	private Statement statement;
 	private ResultSet resultSet;
 	
-	public static List<SeatDTO> findAllSeat(int movie_id) {
-		// 조회 SQL
+	public static List<SeatDTO> findAllSeat(Long movieId) {
 		final String selectQuery = "SELECT * FROM seat WHERE movie_id = ? order by row_id";
 
 		List<SeatDTO> seats = new ArrayList<>();
-
-		// 쿼리 수행 객체 생성 및 쿼리 실행
+  
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(selectQuery);) {
 
-			pstmt.setInt(1, movie_id);
+			pstmt.setLong(1, movieId);
 
 			try (ResultSet rs = pstmt.executeQuery();) {
 
@@ -50,17 +46,15 @@ public class SeatDAO {
 		return null;
 	}
 	
-	public static boolean findSeat(int movie_id, int col, String row) {
-		// 조회 SQL
+	public static boolean findSeat(Long movieId, int col, String row) {
 		final String selectQuery = "SELECT * FROM seat WHERE movie_id = ? and col = ? and row_id = (select id from seat_row where name = ?)";
 
 		boolean isEmpty = true;
 
-		// 쿼리 수행 객체 생성 및 쿼리 실행
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(selectQuery);) {
 
-			pstmt.setInt(1, movie_id);
+			pstmt.setLong(1, movieId);
 			pstmt.setInt(2, col);
 			pstmt.setString(3, row);
 
@@ -79,17 +73,15 @@ public class SeatDAO {
 		return isEmpty;
 	}
 	
-	public static boolean insertSeat(int movie_id, int col, String row) {
-		// 조회 SQL
+	public static boolean insertSeat(Long movieId, int col, String row) {
 		final String selectQuery = "INSERT INTO seat(movie_id, col, row_id) VALUES(?, ?, (select id from seat_row where name = ?))";
 
 		boolean isSuccess = false;
 
-		// 쿼리 수행 객체 생성 및 쿼리 실행
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(selectQuery);) {
 
-			pstmt.setInt(1, movie_id);
+			pstmt.setLong(1, movieId);
 			pstmt.setInt(2, col);
 			pstmt.setString(3, row);
 			
