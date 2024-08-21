@@ -6,7 +6,7 @@ import java.util.List;
 import dev.movie.model.dto.SeatDTO;
 import dev.movie.service.SeatService;
 
-public class SeatCtroller {
+public class SeatController {
 	public static String getSeatInfo(int movie_id) {
 		List<SeatDTO> seatDtos = new ArrayList<>();
 		
