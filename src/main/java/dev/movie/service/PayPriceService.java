@@ -11,6 +11,6 @@ public class PayPriceService {
 		int payPrice = priceRow;
 		if(sale ==0) return (int) Math.round(payPrice * 0.9);
 		else if(sale ==1) return (int) Math.round(payPrice * 0.93);
-		else return -1;
+		return -1;
 	}
 }
