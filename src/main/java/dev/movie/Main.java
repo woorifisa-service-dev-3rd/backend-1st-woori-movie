@@ -12,7 +12,7 @@ public class Main {
 		String movieName = MainController.showMovieList();
 		Long movieId = MainController.showTimeList(movieName);
 		SelectedSeat movieSeat = MainController.showSeatList(movieId);
-		
+
 	}
 
 }
