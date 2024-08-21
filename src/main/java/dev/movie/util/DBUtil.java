@@ -1,4 +1,4 @@
-package dev.util;
+package dev.movie.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;
