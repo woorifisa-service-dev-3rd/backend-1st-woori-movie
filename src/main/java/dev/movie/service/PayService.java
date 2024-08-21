@@ -9,7 +9,7 @@ public class PayService {
 		return -1;
 	}
 	
-	public int payByGift(int sale, int priceRow) {
+	public static int payByGift(int sale, int priceRow) {
 		Console.writeln("어떤 금액권을 가지고 계시나요?");
 		int gift = Console.readInt();
 		int payPrice = payPrice(sale, priceRow);
