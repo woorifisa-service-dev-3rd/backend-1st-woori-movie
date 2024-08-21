@@ -67,8 +67,9 @@ public class MainService {
 
 			SelectedSeat movieSeat = SelectedSeat.builder().movieId(movieId).row(seatRow.getRow()).col(col)
 					.price(seatRow.getPrice()).build();
-			if (SeatService.insertIfEmptySeat(movieId, col, seats))
+			if (SeatService.insertIfEmptySeat(movieId, col, movieSeat.getRow()))
 				return movieSeat;
+			Console.writeln(movieSeat.getRow());
 			Console.writeln("이미 예약이 된 좌석입니다.");
 		}
 	}
