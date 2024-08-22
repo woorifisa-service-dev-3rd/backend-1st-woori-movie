@@ -188,25 +188,6 @@ public class MainService {
 			return -1;
 	}
 	
-	private static void prtSeat(Long movieId) {
-		Console.writeln("====SCREEN====");
-		Console.writeln(SeatService.getAllSeat(movieId));
-	}
-
-	private static int chkTimeType(String time) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-		LocalTime movieTime = LocalTime.parse(time, formatter);
-		LocalTime morningTime = LocalTime.parse("10:01", formatter);
-		LocalTime nightTime = LocalTime.parse("20:59", formatter);
-
-		if (movieTime.isBefore(morningTime))
-			return 0;
-		else if (movieTime.isAfter(nightTime))
-			return 1;
-		else
-			return -1;
-	}
-	
 	private static int chkRowPrice(String row) {
 		switch(row) {
 		case "A":
