@@ -22,7 +22,7 @@ public class MainService {
 			Console.writeln("-------------------------------------------");
 
 			for (String movie : movies)
-				Console.writeln("➡️ " + movie);
+				Console.writeln("➡️  " + movie);
 
 			Console.write("===> ");
 			String movieName = Console.read();
@@ -46,7 +46,7 @@ public class MainService {
 			Console.writeln("🌙 심야 7% 할인 적용 (21:00 이후) 🌙");
 
 			for (MovieTime time : times)
-				Console.writeln("➡️ " + time.getTime());
+				Console.writeln("➡️  " + time.getTime());
 
 			Console.write("===> ");
 			String movieTime = Console.read();
@@ -98,7 +98,7 @@ public class MainService {
 		while (true) {
 			Console.writeln("결제수단을 골라주세요 💬");
 			for (String payment : payments)
-				Console.writeln("➡️ " + payment);
+				Console.writeln("➡️  " + payment);
 			
 			Console.write("==> ");
 			String moviePay = Console.read();
@@ -134,7 +134,8 @@ public class MainService {
 		while (true) {
 			Console.writeln("선택할 좌석의 행을 입력하세요 💬");
 			Console.writeln("====가격표====");
-			for(PriceDTO price : priceList) Console.writeln("➡️ " + price.getRow() + " ₩" + price.getPrice());
+			for(PriceDTO price : priceList) Console.writeln("➡️  " + price.getRow() + " (₩" + price.getPrice() + ")");
+
 			Console.writeln("-------------------------------------------");
 
 			Console.write("===> ");
@@ -168,6 +169,25 @@ public class MainService {
 		}
 	}
 
+	private static void prtSeat(Long movieId) {
+		Console.writeln("====SCREEN====");
+		Console.writeln(SeatService.getAllSeat(movieId));
+	}
+
+	private static int chkTimeType(String time) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime movieTime = LocalTime.parse(time, formatter);
+		LocalTime morningTime = LocalTime.parse("10:01", formatter);
+		LocalTime nightTime = LocalTime.parse("20:59", formatter);
+
+		if (movieTime.isBefore(morningTime))
+			return 0;
+		else if (movieTime.isAfter(nightTime))
+			return 1;
+		else
+			return -1;
+	}
+	
 	private static void prtSeat(Long movieId) {
 		Console.writeln("====SCREEN====");
 		Console.writeln(SeatService.getAllSeat(movieId));

@@ -28,4 +28,5 @@ public class MainController {
 		Console.writeln();
 		return mainService.pay(time, row);
 	}
+
 }

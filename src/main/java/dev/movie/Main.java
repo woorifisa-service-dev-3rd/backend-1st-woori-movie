@@ -4,11 +4,14 @@ import dev.movie.controller.MainController;
 import dev.movie.model.dto.MovieTime;
 import dev.movie.model.dto.Payment;
 import dev.movie.model.dto.SelectedSeat;
+import dev.movie.util.DBUtil;
 import dev.service.cloud.Console;
 
 public class Main {
 
 	public static void main(String[] args) {
+		DBUtil.setArgument(args[0]);
+		
 		Console.writeln("🎬 어서오세요! <우리 극장>입니다! 🎬");
 
 		String movieName = MainController.showMovieList();
@@ -21,7 +24,6 @@ public class Main {
 		Console.writeln("시간: " + movieTime.getTime());
 		Console.writeln("좌석: " + movieSeat.getRow() + movieSeat.getCol());
 		Console.writeln("결제방식: " + pay.getPayType());
-		
 	}
 
 }
