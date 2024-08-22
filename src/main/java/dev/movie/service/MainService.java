@@ -111,6 +111,11 @@ public class MainService {
 				} else {
 					Payment myPayment = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
 					if(myPayment != null) {
+						if(myPayment.getChange() < 0) {
+							Console.writeln("결제 금액이 문화상품권 금액보다 높을 수 없습니다.");
+							Console.writeln();
+							continue;
+						}
 						Console.writeln("결제 완료 되었습니다!");
 						SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 						Console.writeln();
