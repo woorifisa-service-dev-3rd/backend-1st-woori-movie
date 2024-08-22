@@ -5,8 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class PriceDTO {
-	private long id;
-	private String row;
-	private long price;
+public class Payment {
+	private int change;
+	private String payType;
 }
