@@ -1,12 +1,19 @@
 package dev.movie.service;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import dev.movie.model.dto.MovieTime;
+import dev.movie.model.dto.Payment;
 import dev.movie.model.dto.PriceDTO;
 import dev.movie.model.dto.SelectedSeat;
 import dev.service.cloud.Console;
 
 public class MainService {
+	private static MovieTime myMovieTime;
+	private static SelectedSeat mySeat;
+	
 	public String getMovieList() {
 		// showMovie();
 		String[] movies = { "파일럿", "데드풀", "인사이드아웃" };
@@ -30,7 +37,7 @@ public class MainService {
 		}
 	}
 
-	public Long getTimeList(String movieName) {
+	public MovieTime getTimeList(String movieName) {
 		// showTimes();
 		String[] times = { "10:00", "13:00", "15:00" };
 
@@ -47,50 +54,95 @@ public class MainService {
 			String movieTime = Console.read();
 
 			for (String time : times)
-				if (movieTime.equals(time))
-					return 1L;
-
+				if (movieTime.equals(time)) {
+					myMovieTime = MovieTime.builder().id(1L).time(movieTime).build();
+					return myMovieTime;
+				}
+			
 			Console.writeln("해당하는 시간이 존재하지 않습니다.");
 			Console.writeln();
 		}
 	}
 
 	public SelectedSeat getSeatList(Long movieId) {
-		String seats = SeatService.getAllSeat(movieId);
 		Console.writeln("선택하신 시간의 좌석표입니다 🙋🏻‍♀️");
 
 		while (true) {
-			Console.writeln("====SCREEN====");
-			Console.writeln(seats);
+			prtSeat(movieId);
 
 			Console.writeln();
 			SelectedSeat seatRow = selectRow();
 			Console.writeln();
 			int col = selectCol();
 
-			SelectedSeat movieSeat = SelectedSeat.builder().movieId(movieId).row(seatRow.getRow()).col(col)
+			mySeat = SelectedSeat.builder().movieId(movieId).row(seatRow.getRow()).col(col)
 					.price(seatRow.getPrice()).build();
-			if (SeatService.insertIfEmptySeat(movieId, col, movieSeat.getRow()))
-				return movieSeat;
-			Console.writeln(movieSeat.getRow());
+			
+			Console.writeln((seatRow.getRow() + col) + " 좌석으로 결정하시겠습니까? (y / n)");
+			Console.write("===> ");
+			String response = Console.read();
+			if(response.equals("n")) continue;
+			
+			if (SeatService.isEmptySeat(movieId, col, mySeat.getRow())) return mySeat;
+
 			Console.writeln("이미 예약이 된 좌석입니다.");
+			Console.writeln();
+		}
+	}
+	
+	public Payment pay(String time, String row) {
+		String[] payments = { "현금", "카드", "문화상품권" };
+
+		while (true) {
+			Console.writeln("결제수단을 골라주세요 💬");
+			for (String payment : payments)
+				Console.writeln("➡️ " + payment);
+			
+			Console.write("==> ");
+			String moviePay = Console.read();
+			if(moviePay.equals(payments[0]) || moviePay.equals(payments[1]) || moviePay.equals(payments[2])) {
+				if(moviePay.equals(payments[0]) || moviePay.equals(payments[1])) {
+					Console.writeln("결제 완료 되었습니다!");
+					SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
+					Console.writeln();
+					prtSeat(myMovieTime.getId());
+					return Payment.builder().change(-1).payType(moviePay).build();
+				} else {
+					int result = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
+					if(result != -1) {
+						Console.writeln("결제 완료 되었습니다!");
+						SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
+						Console.writeln();
+						prtSeat(myMovieTime.getId());
+						return Payment.builder().change(result).payType(moviePay).build();
+					}
+					
+					Console.writeln("문화상품권은 결제금액의 80%이상 사용하셔야만 결제가 가능합니다.");
+					Console.writeln();
+					continue;
+				}
+			}
+			
+			Console.writeln("존재하지 않는 결제 수단입니다.");
+			Console.writeln();
 		}
 	}
 
 	private static SelectedSeat selectRow() {
-		String[] rows = { "A", "B", "C", "D", "E" };
-		// 가격표 가져와서 아래서 출력
+		List<PriceDTO> priceList = PriceService.getPrice();
 
 		while (true) {
-			Console.writeln("A ~ E 중 선택할 좌석의 행을 입력하세요 💬");
+			Console.writeln("선택할 좌석의 행을 입력하세요 💬");
+			Console.writeln("====가격표====");
+			for(PriceDTO price : priceList) Console.writeln("➡️ " + price.getRow() + " ₩" + price.getPrice());
 			Console.writeln("-------------------------------------------");
 
 			Console.write("===> ");
 			String seatRow = Console.read();
 
-			for (String row : rows)
-				if (seatRow.equals(row))
-					return SelectedSeat.builder().row(row).price(16000).build();
+			for (PriceDTO price : priceList)
+				if (seatRow.equals(price.getRow()))
+					return SelectedSeat.builder().row(price.getRow()).price(16000).build();
 
 			Console.writeln("존재하지 않는 행입니다.");
 			Console.writeln();
@@ -116,9 +168,33 @@ public class MainService {
 		}
 	}
 	
-	public List<PriceDTO> getPrice() {
-		List<PriceDTO> prices = PriceService.getPrice();
-		Console.writeln(prices.toString());
-		return prices;
+	private static void prtSeat(Long movieId) {
+		Console.writeln("====SCREEN====");
+		Console.writeln(SeatService.getAllSeat(movieId));
+	}
+
+	private static int chkTimeType(String time) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime movieTime = LocalTime.parse(time, formatter);
+		LocalTime morningTime = LocalTime.parse("10:01", formatter);
+		LocalTime nightTime = LocalTime.parse("20:59", formatter);
+
+		if (movieTime.isBefore(morningTime))
+			return 0;
+		else if (movieTime.isAfter(nightTime))
+			return 1;
+		else
+			return -1;
+	}
+	
+	private static int chkRowPrice(String row) {
+		switch(row) {
+		case "A":
+			return 16000;
+		case "E":
+			return 16000;
+		default:
+			return 18000;
+		}
 	}
 }

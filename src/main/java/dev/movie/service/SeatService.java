@@ -32,17 +32,12 @@ public class SeatService {
 		}
 		return sb.toString();
 	}
+	
+	public static void saveSeat(Long movieId, int col, String row) {
+		SeatDAO.insertSeat(movieId, col, row);
+	}
         
-	public static boolean insertIfEmptySeat(Long movieId, int col, String row) {
-
-		boolean isEmpty = SeatDAO.findSeat(movieId, col, row);
-
-		if (isEmpty) {
-			boolean isSuccess = SeatDAO.insertSeat(movieId, col, row);
-			return isSuccess;
-
-		} else {
-			return false;
-		}
+	public static boolean isEmptySeat(Long movieId, int col, String row) {
+		return SeatDAO.findSeat(movieId, col, row);
 	}
 }
