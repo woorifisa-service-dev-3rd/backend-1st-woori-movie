@@ -15,8 +15,7 @@ public class MainService {
 	private static SelectedSeat mySeat;
 	
 	public String getMovieList() {
-		// showMovie();
-		String[] movies = { "파일럿", "데드풀", "인사이드아웃" };
+		List<String> movies = MovieService.getTitles();
 
 		while (true) {
 			Console.writeln("관람하실 영화를 선택해주세요 💬");
@@ -38,8 +37,7 @@ public class MainService {
 	}
 
 	public MovieTime getTimeList(String movieName) {
-		// showTimes();
-		String[] times = { "10:00", "13:00", "15:00" };
+		List<MovieTime> times = MovieService.getTimes(movieName);
 
 		while (true) {
 			Console.writeln("상영 시간을 선택해주세요 💬");
@@ -47,15 +45,15 @@ public class MainService {
 			Console.writeln("☀️ 조조 10% 할인 적용 (10:00 이전) ☀️");
 			Console.writeln("🌙 심야 7% 할인 적용 (21:00 이후) 🌙");
 
-			for (String time : times)
-				Console.writeln("➡️ " + time);
+			for (MovieTime time : times)
+				Console.writeln("➡️ " + time.getTime());
 
 			Console.write("===> ");
 			String movieTime = Console.read();
 
-			for (String time : times)
-				if (movieTime.equals(time)) {
-					myMovieTime = MovieTime.builder().id(1L).time(movieTime).build();
+			for (MovieTime time : times)
+				if (movieTime.equals(time.getTime())) {
+					myMovieTime = MovieTime.builder().id(time.getId()).time(movieTime).build();
 					return myMovieTime;
 				}
 			
@@ -78,11 +76,15 @@ public class MainService {
 			mySeat = SelectedSeat.builder().movieId(movieId).row(seatRow.getRow()).col(col)
 					.price(seatRow.getPrice()).build();
 			
-			Console.writeln((seatRow.getRow() + col) + " 좌석으로 결정하시겠습니까? (y / n)");
+			Console.writeln((seatRow.getRow() + col) + " 좌석으로 결정하시겠습니까? (진행하려면 y를 입력)");
 			Console.write("===> ");
 			String response = Console.read();
-			if(response.equals("n")) continue;
-			
+			if(!response.equals("y")) {
+				Console.writeln("좌석 결정을 다시 진행합니다.");
+				Console.writeln();
+				continue;
+			}
+
 			if (SeatService.isEmptySeat(movieId, col, mySeat.getRow())) return mySeat;
 
 			Console.writeln("이미 예약이 된 좌석입니다.");
