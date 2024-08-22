@@ -107,7 +107,6 @@ public class MainService {
 					Console.writeln("결제 완료 되었습니다!");
 					SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 					Console.writeln();
-					prtSeat(myMovieTime.getId());
 					return Payment.builder().change(-1).payType(moviePay).build();
 				} else {
 					int result = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
@@ -115,7 +114,6 @@ public class MainService {
 						Console.writeln("결제 완료 되었습니다!");
 						SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 						Console.writeln();
-						prtSeat(myMovieTime.getId());
 						return Payment.builder().change(result).payType(moviePay).build();
 					}
 					
@@ -169,7 +167,7 @@ public class MainService {
 			Console.writeln();
 		}
 	}
-	
+
 	private static void prtSeat(Long movieId) {
 		Console.writeln("====SCREEN====");
 		Console.writeln(SeatService.getAllSeat(movieId));

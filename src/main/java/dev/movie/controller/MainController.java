@@ -4,7 +4,6 @@ import dev.movie.model.dto.MovieTime;
 import dev.movie.model.dto.Payment;
 import dev.movie.model.dto.SelectedSeat;
 import dev.movie.service.MainService;
-import dev.movie.service.MovieService;
 import dev.service.cloud.Console;
 
 public class MainController {
