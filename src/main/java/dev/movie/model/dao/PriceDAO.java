@@ -23,9 +23,10 @@ public class PriceDAO {
 
 				while(rs.next()) {
 					long id = rs.getLong("id");
+					String row = rs.getString("name");
 					long price = rs.getLong("price");
 					
-					prices.add(PriceDTO.builder().id(id).price(price).build());
+					prices.add(PriceDTO.builder().id(id).row(row).price(price).build());
 				}
 			}
 		

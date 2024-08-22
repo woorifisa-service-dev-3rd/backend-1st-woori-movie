@@ -6,7 +6,7 @@ public class PayService {
 	private static int payPrice(int sale, int priceRow) {
 		if(sale ==0) return (int) Math.round(priceRow * 0.9); // 조조 할인
 		else if(sale ==1) return (int) Math.round(priceRow * 0.93); // 심야 할인
-		return -1;
+		return priceRow;
 	}
 	
 	public static int payByGift(int sale, int priceRow) {
