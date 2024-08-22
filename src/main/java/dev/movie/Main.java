@@ -18,12 +18,12 @@ public class Main {
 		MovieTime movieTime = MainController.showTimeList(movieName);
 		SelectedSeat movieSeat = MainController.showSeatList(movieTime.getId());
 		Payment pay = MainController.selectPay(movieTime.getTime(), movieSeat.getRow());
-		// ticket 만들때 가져올 항목들
-		// 영화 제목 = movieName
-		// 상영 시간 = movieTime.getTime()
-		// 좌석 = movieSeat.getRow() + movieSeat.getCol()
-		// 결제방법 = pay.getPayType()
-
+		
+		Console.writeln("🎬 =< Ticket >= 🎬");
+		Console.writeln("영화 제목: " + movieName);
+		Console.writeln("시간: " + movieTime.getTime());
+		Console.writeln("좌석: " + movieSeat.getRow() + movieSeat.getCol());
+		Console.writeln("결제방식: " + pay.getPayType());
 	}
 
 }

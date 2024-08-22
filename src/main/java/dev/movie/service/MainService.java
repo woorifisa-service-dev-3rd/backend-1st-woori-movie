@@ -107,7 +107,6 @@ public class MainService {
 					Console.writeln("결제 완료 되었습니다!");
 					SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 					Console.writeln();
-					prtSeat(myMovieTime.getId());
 					return Payment.builder().change(-1).payType(moviePay).build();
 				} else {
 					int result = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
@@ -115,7 +114,6 @@ public class MainService {
 						Console.writeln("결제 완료 되었습니다!");
 						SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 						Console.writeln();
-						prtSeat(myMovieTime.getId());
 						return Payment.builder().change(result).payType(moviePay).build();
 					}
 					
@@ -136,7 +134,8 @@ public class MainService {
 		while (true) {
 			Console.writeln("선택할 좌석의 행을 입력하세요 💬");
 			Console.writeln("====가격표====");
-			for(PriceDTO price : priceList) Console.writeln("➡️  " + price.getRow() + " ₩" + price.getPrice());
+			for(PriceDTO price : priceList) Console.writeln("➡️  " + price.getRow() + " (₩" + price.getPrice() + ")");
+
 			Console.writeln("-------------------------------------------");
 
 			Console.write("===> ");
@@ -168,6 +167,25 @@ public class MainService {
 			Console.writeln("존재하지 않는 열입니다.");
 			Console.writeln();
 		}
+	}
+
+	private static void prtSeat(Long movieId) {
+		Console.writeln("====SCREEN====");
+		Console.writeln(SeatService.getAllSeat(movieId));
+	}
+
+	private static int chkTimeType(String time) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+		LocalTime movieTime = LocalTime.parse(time, formatter);
+		LocalTime morningTime = LocalTime.parse("10:01", formatter);
+		LocalTime nightTime = LocalTime.parse("20:59", formatter);
+
+		if (movieTime.isBefore(morningTime))
+			return 0;
+		else if (movieTime.isAfter(nightTime))
+			return 1;
+		else
+			return -1;
 	}
 	
 	private static void prtSeat(Long movieId) {
