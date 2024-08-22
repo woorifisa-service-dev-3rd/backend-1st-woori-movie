@@ -23,7 +23,8 @@ public class Main {
 		Console.writeln("영화 제목: " + movieName);
 		Console.writeln("시간: " + movieTime.getTime());
 		Console.writeln("좌석: " + movieSeat.getRow() + movieSeat.getCol());
-		Console.writeln("결제방식: " + pay.getPayType());
+		Console.writeln("결제 방식: " + pay.getPayType());
+		Console.writeln("결제 금액: " + pay.getPrice());
 	}
 
 }

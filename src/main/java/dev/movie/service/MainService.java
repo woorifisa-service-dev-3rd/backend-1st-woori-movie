@@ -109,12 +109,12 @@ public class MainService {
 					Console.writeln();
 					return Payment.builder().change(-1).payType(moviePay).build();
 				} else {
-					int result = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
-					if(result != -1) {
+					Payment myPayment = PayService.payByGift(chkTimeType(time), chkRowPrice(row));
+					if(myPayment != null) {
 						Console.writeln("결제 완료 되었습니다!");
 						SeatService.saveSeat(myMovieTime.getId(), mySeat.getCol(), row);
 						Console.writeln();
-						return Payment.builder().change(result).payType(moviePay).build();
+						return myPayment;
 					}
 					
 					Console.writeln("문화상품권은 결제금액의 80%이상 사용하셔야만 결제가 가능합니다.");
