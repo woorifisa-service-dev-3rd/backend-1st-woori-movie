@@ -21,4 +21,13 @@ src/main/resources/
 # JDT-specific (Eclipse Java Development Tools)
 .classpath
 
+# .idea
+.idea
+
+# metadata
+.metadata
+
+# Mac
+.DS_Store
+
 # End of https://www.toptal.com/developers/gitignore/api/maven
