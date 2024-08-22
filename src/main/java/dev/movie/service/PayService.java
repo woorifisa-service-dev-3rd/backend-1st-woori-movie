@@ -10,7 +10,8 @@ public class PayService {
 	}
 	
 	public static int payByGift(int sale, int priceRow) {
-		Console.writeln("어떤 금액권을 가지고 계시나요?");
+		Console.writeln("금액권의 가격을 입력하세요 💬");
+		Console.write("==> ");
 		int gift = Console.readInt();
 		int payPrice = payPrice(sale, priceRow);
 		if(payPrice >= Math.round(gift*0.8)) return gift - payPrice;
