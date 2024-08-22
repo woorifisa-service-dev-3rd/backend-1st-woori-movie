@@ -7,7 +7,7 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
-public class SeatDTO {
+public class Seat {
 	private int id;
 	private int col;
 	private int movieId;

@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import dev.movie.model.dto.SeatDTO;
+import dev.movie.model.dto.Seat;
 import dev.movie.util.DBUtil;
 
 public class SeatDAO {
@@ -16,10 +16,10 @@ public class SeatDAO {
 	private Statement statement;
 	private ResultSet resultSet;
 	
-	public static List<SeatDTO> findAllSeat(Long movieId) {
+	public static List<Seat> findAllSeat(Long movieId) {
 		final String selectQuery = "SELECT * FROM seat WHERE movie_id = ? order by row_id";
 
-		List<SeatDTO> seats = new ArrayList<>();
+		List<Seat> seats = new ArrayList<>();
   
 		try (Connection connection = DBUtil.getConnection();
 				PreparedStatement pstmt = connection.prepareStatement(selectQuery);) {
@@ -34,7 +34,7 @@ public class SeatDAO {
 					int sel_moive_id = rs.getInt("movie_id");
 					int row_id = rs.getInt("row_id");
 					
-					seats.add(new SeatDTO(id, col, sel_moive_id, row_id));
+					seats.add(new Seat(id, col, sel_moive_id, row_id));
 				}
 			}
 		

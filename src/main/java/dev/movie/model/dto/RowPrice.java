@@ -3,11 +3,10 @@ package dev.movie.model.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
 @Builder
-public class SelectedSeat {
-	private Long movieId;
+@Getter
+public class RowPrice {
+	private long id;
 	private String row;
-	private int col;
-	private int price;
+	private long price;
 }
